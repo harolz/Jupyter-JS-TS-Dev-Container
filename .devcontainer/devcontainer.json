@@ -6,17 +6,47 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": { 
-		"terminal.integrated.shell.linux": "/bin/bash"
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"code-runner.executorMap": {
+			"tex":"pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -recorder -output-directory=$dir $fullFileName --resource-path=$workspaceRoot/researchdiary_png.sty",
+			"asm":"nasm -f elf64 $fileName && ld -s -o $fileNameWithoutExt $fileNameWithoutExt.o && ./$fileNameWithoutExt",
+			"javascript": "node",
+			"java": "cd $dir && javac $fileName && java $fileNameWithoutExt",
+			"typescript": "cd $dir && tsc $fileName && node $fileNameWithoutExt.js",
+			"sass": "sass --style expanded",
+			"scss": "scss --style expanded",
+			"less": "cd $dir && lessc $fileName $fileNameWithoutExt.css"
+		},
+		"code-runner.executorMapByGlob": {
+			"type": "object",
+			"default": {
+			  "pom.xml": "cd $dir && mvn clean package",
+			  "*.asm": "nasm -f elf64 $fileName && ld -s -o $fileNameWithoutExt $fileNameWithoutExt.o && ./$fileNameWithoutExt",
+			  "*.tex": "pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -recorder -output-directory=$dir $fullFileName --resource-path=$workspaceRoot/researchdiary_png.sty",
+			  "*.ts":"cd $dir && tsc $fileName && node $fileNameWithoutExt.js"
+			},
+			"description": "Set the executor by glob.",
+			"scope": "resource"
+		},
+		"code-runner.executorMapByFileExtension": {
+			".tex":"pdflatex  -synctex=1 -interaction=nonstopmode -file-line-error -recorder -output-directory=$dir $fullFileName --resource-path=$workspaceRoot/researchdiary_png.sty",
+			".asm": "nasm -f elf64 $fileName && ld -s -o $fileNameWithoutExt $fileNameWithoutExt.o && ./$fileNameWithoutExt",
+			".sass": "sass --style expanded",
+			"*.ts":"cd $dir && tsc $fileName && node $fileNameWithoutExt.js"
+
+		}
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"dbaeumer.vscode-eslint",
-		"ms-vscode.vscode-typescript-tslint-plugin"
+		"ms-vscode.vscode-typescript-tslint-plugin",
+		"ms-python.python",
+		"formulahendry.code-runner"
 	],
 
 	//Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [8888, 8888],
+	"forwardPorts": [8888, 2121, 4679, 1037],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//"postCreateCommand": "mkdir notebooks && nohup jupyter lab --ip=* --port=$SERVER_PORT --no-browser --notebook-dir='/workspaces/NodeJS Dev/notebooks' --allow-root --NotebookApp.token='' --NotebookApp.password=''"
