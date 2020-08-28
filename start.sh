@@ -1,0 +1,1 @@
+nohup jupyter lab --ip=* --port=$SERVER_PORT --no-browser --notebook-dir='./notebooks' --allow-root --NotebookApp.token='' --NotebookApp.password=''
